@@ -1,4 +1,4 @@
-![Forge Logo](forge.webp)
+![Forge Logo](forge.png)
 
 # Forge 🔥
 
