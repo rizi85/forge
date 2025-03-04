@@ -1,3 +1,5 @@
+![Forge Logo](forge.webp)
+
 # Forge 🔥
 
 **Forge** is a command-line tool designed to interact with various Large Language Models (LLMs) including OpenAI, Anthropic, and Google PaLM. With Forge, you can conveniently query these models from your Linux or macOS terminal using predefined prompts called "sparks".
