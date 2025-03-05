@@ -3,10 +3,8 @@ import json
 from utils.config import OLLAMA_MODEL
 
 class OllamaClient:
-    """
-    A client for connecting to locally installed Ollama models.
-    """
-    
+    #A client for connecting to locally installed Ollama models.
+   
     def __init__(self, base_url="http://localhost:11434"):
         self.base_url = base_url
         self.model = OLLAMA_MODEL
