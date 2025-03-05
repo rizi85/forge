@@ -1,4 +1,5 @@
 import requests
+import json
 from utils.config import OLLAMA_MODEL
 
 class OllamaClient:
@@ -13,6 +14,7 @@ class OllamaClient:
     def connect(self, prompt: str) -> str:
         """
         Sends a request to the locally running Ollama model.
+        Handles both standard and streamed responses.
         :param prompt: The input text to send to the model.
         :return: The model's response or an error message.
         """
@@ -20,12 +22,24 @@ class OllamaClient:
         payload = {
             "model": self.model,
             "prompt": prompt,
+            "stream": True  # Handle streamed responses correctly
         }
 
         try:
-            response = requests.post(url, json=payload, timeout=10)
+            response = requests.post(url, json=payload, timeout=10, stream=True)
             response.raise_for_status()
-            return response.json().get("response", "No response received.")
+            
+            response_text = ""
+            for line in response.iter_lines():
+                if line:
+                    try:
+                        json_data = line.decode("utf-8")
+                        parsed_data = json.loads(json_data)  # Use json.loads instead of requests.utils.json
+                        response_text += parsed_data.get("response", "") + " "
+                    except (json.JSONDecodeError, ValueError):
+                        continue
+            
+            return response_text.strip() if response_text else "Unexpected response format from Ollama API."
         except requests.exceptions.RequestException as e:
             return f"Connection error: {e}"
 

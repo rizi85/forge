@@ -1,9 +1,6 @@
 from utils.prompt_manager import PromptManager
 from core.ollama_client import OllamaClient
-
-# Define paths
-SPARKS_FILE = "./sparks/test_sprk.md"
-OUTPUT_FILE = "./sparks/output.md"
+from utils.config import SPARKS_FILE, OUTPUT_FILE
 
 def main():
     """

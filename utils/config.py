@@ -1,10 +1,14 @@
 import os
 
 # Constants for model names
-CHATGPT_MODEL = os.getenv("CHATGPT_MODEL", "gpt-4-turbo")  # Default value can be changed later
+CHATGPT_MODEL = os.getenv("CHATGPT_MODEL", "gpt-4-turbo")
 GOOGLE_PALM_MODEL = os.getenv("GOOGLE_PALM_MODEL", "gemini-pro")
 CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-3-opus")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3:latest")
+
+# Define file paths
+SPARKS_FILE = os.getenv("SPARKS_FILE", "./sparks/test/test_sprk.md")
+OUTPUT_FILE = os.getenv("OUTPUT_FILE", "./sparks/output.md")
 
 # Validation (if needed, can be extended)
 AVAILABLE_MODELS = {

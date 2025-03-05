@@ -1,4 +1,4 @@
-![Forge Logo](forge.png)
+![Forge Logo](/res/forge.png)
 
 # Forge 🔥
 
