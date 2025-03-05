@@ -1,0 +1,1 @@
+You act as an experienced writer. Write a short story of only 100 words about your faborit subject.
