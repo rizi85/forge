@@ -36,21 +36,13 @@ forge/
 │   ├── anthropic_client.py     # Interacts with Anthropic's API
 │   ├── google_palm_client.py   # Interacts with Google PaLM API
 │   └── __init__.py
-├── cli/
-│   ├── forge_cli.py            # Main CLI entry point
-│   └── prompts/                # Collection of predefined prompt templates
-│       ├── coding_prompts.json
-│       ├── summarization_prompts.json
-│       └── ...
 ├── utils/
 │   ├── config.py               # Reads and validates environment variables
 │   ├── logger.py               # Basic logging utility
 │   └── ...
-├── tests/
-│   ├── test_openai_client.py
-│   ├── test_anthropic_client.py
-│   └── test_google_palm_client.py
-├── setup.py                    # Package setup script
+│── /sparks
+│   ├── test_sprk.md            # Spark file containing the prompt
+├── forge.py                    # Package setup script
 └── README.md                   # You are here!
 ```
 
