@@ -30,41 +30,36 @@ def main():
     parser.add_argument("-f", "--file", help="File input for the Spark, if required")
     
     args = parser.parse_args()
-    
-    # Validate spark path
-    spark_path = os.path.join(SPARKS_FILE, args.spark, f"{args.spark}.md")
-    if not os.path.isfile(spark_path):
-        print(f"Error: No such spark '{spark_path}' found.")
-        return
-    
-    # Read the prompt file from the Spark folder
-    spark_file = os.path.join(SPARKS_FILE, args.spark, f"{args.spark}.md")
-    if not os.path.isfile(spark_file):
-        print(f"Error: Spark not found in {args.spark}")
-        return
-    
-    prompt = PromptManager.read_prompt(spark_file)
-    
-    # Append optional inputs if provided
+
+    # Read the prompt from the Spark file
+    prompt = PromptManager.read_prompt_from_spark_file(args.spark)
+
+    # Check if the Spark requires an URL
     if args.url:
-        prompt += f"\nURL: {args.url}"
+        prompt_url = PromptManager.read_url(args.url)
+
+    # Check if the Spark requires a file
     if args.file:
-        if os.path.isfile(args.file):
-            with open(args.file, "r", encoding="utf-8") as file:
-                file_content = file.read()
-            prompt += f"\nFile Content:\n{file_content}"
-        else:
-            print(f"Error: File '{args.file}' not found.")
-            return
-    
+        prompt_file = PromptManager.read_local_file(args.file)
+
     # Initialize and use the selected LLM client
     try:
         llm_client = get_llm_client(args.model)
+
+        # Query LLM with a prompt
         response = llm_client.connect(prompt)
+
+        # Query LLM with a prompt and file
+        if args.file:
+            response = llm_client.connect(prompt, prompt_file)
+
+        # Query LLM with a prompt and URL
+        if args.url:
+            response = llm_client.connect(prompt, prompt_url)
         
-        # Print and save response
+        # Print LLM response
         print(response)
-        PromptManager.write_response(OUTPUT_FILE, response)
+
     except Exception as e:
         print(f"Error: {e}")
 

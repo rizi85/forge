@@ -1,0 +1,1 @@
+Read the article on the page and make a short summary in five key points. Present the information as a bullet list.

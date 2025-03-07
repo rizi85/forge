@@ -14,20 +14,34 @@ class OpenAIClient:
         self.client = OpenAI()
         self.client.api_key = self.api_key
     
-    def connect(self, prompt: str) -> str:
-        """
-        Sends a request to OpenAI's model.
-        Handles both standard and streamed responses.
-        :param prompt: The input text to send to the model.
-        :return: The model's response or an error message.
-        """
+    def connect(self, prompt: str, file_content: str = None, page_content: str = None) -> str:
+
         try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[{"role": "user", "content": prompt}],
-                stream=True
-            )
-            
+            #Sends a request to OpenAI's model - prompt only
+            if not file_content and not page_content:
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[{"role": "user", "content": prompt}],
+                    stream=True
+                )
+            #Sends a request to OpenAI's model - prompt and file
+            elif file_content:
+                prompt = prompt + "\n\n" + file_content
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[{"role": "user", "content": prompt}],
+                    stream=True
+                )
+            #Sends a request to OpenAI's model - prompt and URL
+            elif page_content:
+                prompt = prompt + "\n\n" + page_content
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[{"role": "user", "content": prompt}],
+                    stream=True
+                )
+
+            #Get model response
             response_text = ""
             for chunk in response:
                 if chunk.choices:
