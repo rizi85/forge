@@ -1,21 +1,29 @@
 import requests
 import json
 from utils.config import OLLAMA_MODEL
+from utils.config import BASE_URL
 
 class OllamaClient:
     #A client for connecting to locally installed Ollama models.
    
-    def __init__(self, base_url="http://localhost:11434"):
-        self.base_url = base_url
+    def __init__(self):
+        self.base_url = BASE_URL
         self.model = OLLAMA_MODEL
 
-    def connect(self, prompt: str) -> str:
-        """
-        Sends a request to the locally running Ollama model.
-        Handles both standard and streamed responses.
-        :param prompt: The input text to send to the model.
-        :return: The model's response or an error message.
-        """
+    def connect(self, prompt: str, file_content: str = None, page_content: str = None) -> str:
+
+        #Buid prompt based on user input
+        #Sends a request to OpenAI's model - prompt only
+        if not file_content and not page_content:
+            prompt = prompt
+        #Sends a request to OpenAI's model - prompt and file
+        elif file_content:
+            prompt = prompt + "\n\n" + file_content
+        #Sends a request to OpenAI's model - prompt and URL
+        elif page_content:
+            prompt = prompt + "\n\n" + page_content
+
+        #Send request to Ollama model
         url = f"{self.base_url}/api/generate"
         payload = {
             "model": self.model,
@@ -33,7 +41,7 @@ class OllamaClient:
                     try:
                         json_data = line.decode("utf-8")
                         parsed_data = json.loads(json_data)  # Use json.loads instead of requests.utils.json
-                        response_text += parsed_data.get("response", "") + " "
+                        response_text += parsed_data.get("response", "") + ""
                     except (json.JSONDecodeError, ValueError):
                         continue
             

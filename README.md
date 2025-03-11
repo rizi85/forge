@@ -20,7 +20,7 @@
 
 ## Features
 
-- **Multi-LLM Support**: Seamlessly switch between different LLM providers (OpenAI, Anthropic, Google PaLM).
+- **Multi-LLM Support**: Seamlessly switch between different LLM providers (Local LLMs via Ollama, OpenAI, Google Gemini, Anthropic*).
 - **Command-Line Friendly**: Run prompts directly from your terminal without leaving your development environment.
 - **Customizable Prompts**: Easily define your own prompts and tailor them to different tasks or applications.
 - **Simple Python 3 Codebase**: Built purely in Python 3 for quick installation and minimal dependency management.
@@ -47,10 +47,10 @@ forge/
 ```
 
 - **`core/`**: Houses clients for each LLM provider's API.
-- **`cli/forge_cli.py`**: Main executable for command-line interactions.
+- **`forge_cli.py`**: Main executable for command-line interactions.
 - **`cli/prompts/`**: Directory for storing or referencing predefined prompt templates.
 - **`utils/`**: Helper scripts, e.g. configuration or logging.
-- **`tests/`**: Contains unit tests for all major functionalities.
+- **`sparks/`**: Contains the "magic" - individual prompts for specific needs.
 - **`setup.py`**: Standard Python package setup script.
 
 ---
