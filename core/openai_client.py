@@ -1,5 +1,4 @@
 from openai import OpenAI
-import os
 from utils.config import CHATGPT_MODEL
 from utils.config import OPENAI_API_KEY
 
@@ -17,29 +16,23 @@ class OpenAIClient:
     def connect(self, prompt: str, file_content: str = None, page_content: str = None) -> str:
 
         try:
+            #Buid prompt based on user input
             #Sends a request to OpenAI's model - prompt only
             if not file_content and not page_content:
-                response = self.client.chat.completions.create(
-                    model=self.model,
-                    messages=[{"role": "user", "content": prompt}],
-                    stream=True
-                )
+                prompt = prompt
             #Sends a request to OpenAI's model - prompt and file
             elif file_content:
                 prompt = prompt + "\n\n" + file_content
-                response = self.client.chat.completions.create(
-                    model=self.model,
-                    messages=[{"role": "user", "content": prompt}],
-                    stream=True
-                )
             #Sends a request to OpenAI's model - prompt and URL
             elif page_content:
                 prompt = prompt + "\n\n" + page_content
-                response = self.client.chat.completions.create(
-                    model=self.model,
-                    messages=[{"role": "user", "content": prompt}],
-                    stream=True
-                )
+
+            #Send request to OpenAI model
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[{"role": "user", "content": prompt}],
+                stream=True
+            )
 
             #Get model response
             response_text = ""

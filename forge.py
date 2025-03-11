@@ -5,7 +5,7 @@ import os
 from utils.prompt_manager import PromptManager
 from core.ollama_client import OllamaClient
 from core.openai_client import OpenAIClient
-#from core.gemini_client import GeminiClient
+from core.google_client import GooglePalmClient
 #from core.anthropic_client import AnthropicClient
 from utils.config import SPARKS_FILE, OUTPUT_FILE
 
@@ -13,7 +13,8 @@ def get_llm_client(model_name):
     #Returns the appropriate LLM client based on user input.
     clients = {
         "ollama": OllamaClient,
-        "openai": OpenAIClient
+        "openai": OpenAIClient,
+        "google": GooglePalmClient
     }
     
     if model_name not in clients:

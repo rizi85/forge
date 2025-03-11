@@ -2,7 +2,7 @@
 
 # Forge 🔥
 
-**Forge** is a command-line tool designed to interact with various Large Language Models (LLMs) including OpenAI, Anthropic, and Google PaLM. With Forge, you can conveniently query these models from your Linux or macOS terminal using predefined prompts called "sparks".
+**Forge** is a command-line tool designed to interact with various Large Language Models (LLMs) including OpenAI, Anthropic, and Google Gemini. With Forge, you can conveniently query these models from your Linux or macOS terminal using predefined prompts called "sparks".
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@
 
 ## Features
 
-- **Multi-LLM Support**: Seamlessly switch between different LLM providers (OpenAI, Anthropic, Google PaLM).
+- **Multi-LLM Support**: Seamlessly switch between different LLM providers (Local LLMs via Ollama, OpenAI, Google Gemini, Anthropic*).
 - **Command-Line Friendly**: Run prompts directly from your terminal without leaving your development environment.
 - **Customizable Prompts**: Easily define your own prompts and tailor them to different tasks or applications.
 - **Simple Python 3 Codebase**: Built purely in Python 3 for quick installation and minimal dependency management.
@@ -47,11 +47,10 @@ forge/
 ```
 
 - **`core/`**: Houses clients for each LLM provider's API.
-- **`cli/forge_cli.py`**: Main executable for command-line interactions.
+- **`forge_cli.py`**: Main executable for command-line interactions.
 - **`cli/prompts/`**: Directory for storing or referencing predefined prompt templates.
 - **`utils/`**: Helper scripts, e.g. configuration or logging.
-- **`tests/`**: Contains unit tests for all major functionalities.
-- **`setup.py`**: Standard Python package setup script.
+- **`sparks/`**: Contains the "magic" - individual prompts for specific needs.
 
 ---
 
@@ -64,6 +63,7 @@ forge/
 - `requests` or your preferred library for HTTP requests  
 - Official libraries for respective LLM providers, as needed (e.g. `openai`, `google-generativeai`, `anthropic`)  
 - Any other libraries used for CLI or prompt management
+- Others TBD
 
 ---
 
@@ -95,70 +95,55 @@ forge/
 ## Configuration
 
 Forge requires environment variables for each LLM provider you intend to use. Below is an example of how you might set them:
-
+*First copy and rename file .env.example to .env on local machine and replace the value of each API key with yours*
 ```bash
-# OpenAI
-export OPENAI_API_KEY="sk-..."
-
-# Anthropic
-export ANTHROPIC_API_KEY="api_..."
-
-# Google PaLM
-export GOOGLE_PALM_API_KEY="..."
-
-# Optionally, for specifying your default LLM provider:
-export FORGE_DEFAULT_PROVIDER="openai"  # or "anthropic", "google"
+OPENAI_API_KEY=
+GEMINI_API_KEY=
+ANTHROPIC_API_KEY=
 ```
 
-You can place these in your shell startup file (`.bashrc`, `.zshrc`) or manage them via a tool like `direnv`.
+For local models make sure to make changes in /utils/config.py by adding local API URL and Port that ollama server is running on.
 
+```bash
+# Local models paths
+BASE_URL = os.getenv("BASE_URL", "http://localhost:11434")
+```
+
+For specific models make changes in /utils/config.py
+```bash
+# Local models paths
+# Constants for model names
+CHATGPT_MODEL = os.getenv("CHATGPT_MODEL", "gpt-4o")
+GOOGLE_GEMINI_MODEL = os.getenv("GOOGLE_GEMINI_MODEL", "gemini-2.0-flash")
+CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-3-opus")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3:latest")
+```
 ---
 
 ## Usage
 
-Hereâ€™s a quick overview of how to use Forge from the terminal:
+Here is a quick overview of how to use Forge from the terminal:
 
-1. **Run the CLI**:
+1. **Specify a provider and prompt**:
    ```bash
-   python forge/cli/forge_cli.py --help
+   ./forge.py -m google -s story_teller
    ```
 
-2. **Specify a provider and prompt**:
+2. **Specify a provider, a prompt, and an input file**:
    ```bash
-   python forge/cli/forge_cli.py        --provider openai        --prompt "Write a short poem about the sunrise."
+   ./forge.py -m ollama -s summarize_file -f rocket.txt
    ```
 
-3. **Use a predefined prompt**:
+3. **Specify a provider, a prompt, and an input URL**:
    ```bash
-   python forge/cli/forge_cli.py        --provider anthropic        --template summarization_prompts.json        --context "A long piece of text to summarize"
+   ./forge.py -m openai -s summarize_page -u https://www.bbc.com/news/articles/1.html
    ```
 
 **Options** (example):
-- `--provider`: Which LLM API to call.  
-- `--prompt`: A direct prompt string.  
-- `--template`: Name of a predefined prompt or template file.  
-- `--context`: Additional text to feed into a template.  
-
----
-
-## Examples
-
-1. **Interactive Shell** (if available):
-   ```bash
-   python forge/cli/forge_cli.py --interactive
-   ```
-   Type your questions or commands directly, and get responses in real-time.
-
-2. **Code Generation**:
-   ```bash
-   python forge/cli/forge_cli.py        --provider openai        --prompt "Generate a Python function to parse JSON data."
-   ```
-
-3. **Batch Processing** (pseudo-code):
-   ```bash
-   python your_script_that_calls_forge.py
-   ```
-   Where `your_script_that_calls_forge.py` automates multiple queries to the Forge library.
+- "-s", "--spark", required=True, help="Spark name (folder name inside /sparks)"
+- "-m", "--model", default="ollama", help="LLM model to use (default: ollama)"
+- "-u", "--url", help="URL input for the Spark, if required"
+- "-f", "--file", help="File input for the Spark, if required"
 
 ---
 
