@@ -51,6 +51,10 @@ forge/
 - **`cli/prompts/`**: Directory for storing or referencing predefined prompt templates.
 - **`utils/`**: Helper scripts, e.g. configuration or logging.
 - **`sparks/`**: Contains the "magic" - individual prompts for specific needs.
+<<<<<<< HEAD
+=======
+- **`setup.py`**: Standard Python package setup script.
+>>>>>>> 80131b3f3604e434f7d8cb1c1614063315eedcce
 
 ---
 
