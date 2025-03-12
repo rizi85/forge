@@ -2,7 +2,8 @@
 
 # Forge 🔥
 
-**Forge** is a command-line tool designed to interact with various Large Language Models (LLMs) including OpenAI, Anthropic, and Google Gemini. With Forge, you can conveniently query these models from your Linux or macOS terminal using predefined prompts called "sparks".
+**Forge** is a command-line tool designed to interact with various Large Language Models (LLMs) including locally installed models via Ollama, OpenAI, Google Gemini, Anthropic*.
+With Forge, you can conveniently query these models from your Linux or macOS terminal using predefined prompts called "sparks".
 
 ## Table of Contents
 
@@ -12,7 +13,6 @@
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
-- [Examples](#examples)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -33,41 +33,32 @@
 forge/
 ├── core/
 │   ├── openai_client.py        # Interacts with OpenAI's API
-│   ├── anthropic_client.py     # Interacts with Anthropic's API
+│   ├── ollama_client.py        # Interacts with local ollama API
 │   ├── google_palm_client.py   # Interacts with Google PaLM API
 │   └── __init__.py
 ├── utils/
 │   ├── config.py               # Reads and validates environment variables
 │   ├── logger.py               # Basic logging utility
 │   └── ...
-│── /sparks
-│   ├── test_sprk.md            # Spark file containing the prompt
-├── forge.py                    # Package setup script
+│── sparks/
+│   └──test_spark/              # Spark folder
+│       └── test_sprk.md        # Spark file containing the prompt
+├── forge.py                    # Main script
+│── requirements.txt            # Dependency file
+│── .env                        # API keys and other data
 └── README.md                   # You are here!
 ```
-
-- **`core/`**: Houses clients for each LLM provider's API.
-- **`forge_cli.py`**: Main executable for command-line interactions.
-- **`cli/prompts/`**: Directory for storing or referencing predefined prompt templates.
-- **`utils/`**: Helper scripts, e.g. configuration or logging.
-- **`sparks/`**: Contains the "magic" - individual prompts for specific needs.
-<<<<<<< HEAD
-=======
-- **`setup.py`**: Standard Python package setup script.
->>>>>>> 80131b3f3604e434f7d8cb1c1614063315eedcce
 
 ---
 
 ## Requirements
 
-- Python 3.8+ (recommended)
+- Python 3
 - pip or another Python package manager
 
 **Dependencies**:  
-- `requests` or your preferred library for HTTP requests  
 - Official libraries for respective LLM providers, as needed (e.g. `openai`, `google-generativeai`, `anthropic`)  
-- Any other libraries used for CLI or prompt management
-- Others TBD
+- Any other libraries used for CLI or prompt management for more info view `requiremetns.txt` file
 
 ---
 
@@ -89,16 +80,13 @@ forge/
    ```bash
    pip install -r requirements.txt
    ```
-   Or if you have a `setup.py`:
-   ```bash
-   pip install .
-   ```
 
 ---
 
 ## Configuration
 
 Forge requires environment variables for each LLM provider you intend to use. Below is an example of how you might set them:
+
 *First copy and rename file .env.example to .env on local machine and replace the value of each API key with yours*
 ```bash
 OPENAI_API_KEY=
@@ -113,7 +101,7 @@ For local models make sure to make changes in /utils/config.py by adding local A
 BASE_URL = os.getenv("BASE_URL", "http://localhost:11434")
 ```
 
-For specific models make changes in /utils/config.py
+For specific LLM models make changes in /utils/config.py (Check provider documentation before)
 ```bash
 # Local models paths
 # Constants for model names

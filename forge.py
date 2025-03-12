@@ -22,9 +22,28 @@ def get_llm_client(model_name):
     
     return clients[model_name]()
 
+def print_logo():
+    logo = """
+░▒█▀▀▀░▄▀▀▄░█▀▀▄░█▀▀▀░█▀▀
+░▒█▀▀░░█░░█░█▄▄▀░█░▀▄░█▀▀
+░▒█░░░░░▀▀░░▀░▀▀░▀▀▀▀░▀▀▀
+Forge v0.1.0-alpha
+    """
+    print(logo)
+
+class CustomArgumentParser(argparse.ArgumentParser):
+    def print_help(self):
+        print_logo()
+        super().print_help()
+
 def main():
+
     #Handles argument parsing and orchestrates LLM query process.
-    parser = argparse.ArgumentParser(description="Forge CLI for querying different LLMs with Sparks.")
+    parser = CustomArgumentParser(
+        description="Forge CLI for querying different LLMs with Sparks.",
+        epilog="Example usage: ./forge.py -s my_spark -m openai -u https://example.com -f input.txt",
+        add_help=True  # Ensures the help option is automatically included
+    )
     parser.add_argument("-s", "--spark", required=True, help="Spark name (folder name inside /sparks)")
     parser.add_argument("-m", "--model", default="ollama", help="LLM model to use (default: ollama)")
     parser.add_argument("-u", "--url", help="URL input for the Spark, if required")
