@@ -3,7 +3,7 @@
 # Forge 🔥
 
 **Forge** is a command-line tool designed to interact with various Large Language Models (LLMs) including locally installed models via Ollama, OpenAI, Google Gemini, Anthropic*.
-With Forge, you can conveniently query these models from your Linux or macOS terminal using predefined prompts called "sparks".
+With Forge, you can conveniently query these models from your Linux, macOS or Windows terminal using predefined prompts called "sparks".
 
 ## Table of Contents
 
@@ -71,9 +71,17 @@ forge/
    ```
 
 2. **(Optional) Create a virtual environment**:
+Linux macOS
    ```bash
    python3 -m venv .venv
    source .venv/bin/activate
+   ```
+Windows PowerShell
+   ```bash
+   python3 -m venv .venv
+   .venv\Scripts\activate
+   # or
+   .venv\Scripts\Activate.ps1
    ```
 
 3. **Install dependencies**:
