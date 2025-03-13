@@ -71,13 +71,15 @@ forge/
    ```
 
 2. **(Optional) Create a virtual environment**:
-Linux macOS
+
    ```bash
+   # Linux macOS
+   
    python3 -m venv .venv
    source .venv/bin/activate
-   ```
-Windows PowerShell
-   ```bash
+
+   # Windows PowerShell
+
    python3 -m venv .venv
    .venv\Scripts\activate
    # or
