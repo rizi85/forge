@@ -3,3 +3,4 @@ google-generativeai
 requests
 python-dotenv
 newspaper3k
+lxml_html_clean
