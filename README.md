@@ -66,7 +66,7 @@ forge/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-org/forge.git
+   git clone https://github.com/rizi85/forge.git
    cd forge
    ```
 

@@ -42,21 +42,14 @@ class PromptManager:
         if not url.startswith(('http://', 'https://')):
             raise ValueError(f"Invalid URL format: {url}")
         
-        # Retrieve content from the provided URL
-        """"
-        try:
-            response = requests.get(url)
-            response.raise_for_status()  # Raises an error if request fails
-            page_content = response.text
-        except requests.exceptions.RequestException as e:
-            print(f"Error fetching the URL: {e}")
-            sys.exit(1)
-        """
-        
-
+        # Download the article and return the content
         article = Article(url)
         article.download()
         article.parse()
         page_content = article.text
         # Return URL as a string
-        return page_content
+        if page_content:
+            return page_content
+        else:
+            print(f"Unable to fetch content from URL: {url}")
+            exit(1)
