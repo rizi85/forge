@@ -48,6 +48,7 @@ def main():
     parser.add_argument("-m", "--model", default="ollama", help="LLM model to use (default: ollama)")
     parser.add_argument("-u", "--url", help="URL input for the Spark, if required")
     parser.add_argument("-f", "--file", help="File input for the Spark, if required")
+    parser.add_argument("-v", "--video", help="YouTube video URL for the Spark, if required")
     
     args = parser.parse_args()
 
@@ -61,6 +62,10 @@ def main():
     # Check if the Spark requires a file
     if args.file:
         prompt_file = PromptManager.read_local_file(args.file)
+
+    # Check if the Spark requires a YouTube video
+    if args.video:
+        prompt_video = PromptManager.read_youtube_video(args.video)
 
     # Initialize and use the selected LLM client
     try:
@@ -76,6 +81,10 @@ def main():
         # Query LLM with a prompt and URL
         if args.url:
             response = llm_client.connect(prompt, prompt_url)
+        
+        # Query LLM with a prompt and YouTube video
+        if args.video:
+            response = llm_client.connect(prompt, prompt_video)
         
         # Print LLM response
         print(response)

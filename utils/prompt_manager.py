@@ -3,6 +3,7 @@ import sys
 import requests
 from newspaper import Article
 from utils.config import SPARKS_FILE
+from utils.youtube_transcript_fetcher import YouTubeTranscriptFetcher
 
 # Manages query info - prepare for LLM.
 class PromptManager:
@@ -53,3 +54,16 @@ class PromptManager:
         else:
             print(f"Unable to fetch content from URL: {url}")
             exit(1)
+    
+    # Prepare YouTube video to send to LLM.
+    def read_youtube_video(video_url: str) -> str:
+        # Extract the video ID from the URL
+        video_id = YouTubeTranscriptFetcher(video_url).extract_video_id()
+        
+        # Fetch the transcript of the video
+        fetcher = YouTubeTranscriptFetcher(video_url)
+        transcript = fetcher.get_transcript()
+        if not transcript:
+            print(f"Unable to fetch transcript for video: {video_url}")
+            exit(1)
+        return transcript

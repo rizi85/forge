@@ -25,11 +25,3 @@ class YouTubeTranscriptFetcher:
             return " ".join([entry["text"] for entry in transcript])
         except Exception as e:
             return f"Error fetching transcript: {str(e)}"
-
-"""Example usage
-if __name__ == "__main__":
-    video_url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    fetcher = YouTubeTranscriptFetcher(video_url)
-    transcript = fetcher.get_transcript()
-    print(transcript)
-"""
