@@ -144,10 +144,10 @@ Here is a quick overview of how to use Forge from the terminal:
 **Options** (example):
 - `-s`, `--spark`  - required - Spark name (folder name inside /sparks)
 - `-m`, `--model`  - required (default="ollama") - LLM model to use (default: ollama)
-- `-u`, `--url`,   - optional - URL input for the Spark, if required
-- `-f`, `--file`,  - optional - File input for the Spark, if required
-- `-v`, `--video`, - optional - YouTube video URL for the Spark, if required
-- `-i`, `--input`, - optional - Input text for the Spark. Reads from stdin if omitted
+- `-u`, `--url`   - optional - URL input for the Spark, if required
+- `-f`, `--file`  - optional - File input for the Spark, if required
+- `-v`, `--video` - optional - YouTube video URL for the Spark, if required
+- `-i`, `--input` - optional - Input text for the Spark. Reads from stdin if omitted
 
 ---
 
