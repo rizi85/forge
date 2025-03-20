@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-import os
+import sys
 from utils.prompt_manager import PromptManager
 from core.ollama_client import OllamaClient
 from core.openai_client import OpenAIClient
@@ -49,6 +49,7 @@ def main():
     parser.add_argument("-u", "--url", help="URL input for the Spark, if required")
     parser.add_argument("-f", "--file", help="File input for the Spark, if required")
     parser.add_argument("-v", "--video", help="YouTube video URL for the Spark, if required")
+    parser.add_argument("-i", "--input", help="Optional input text for the Spark. Reads from stdin if omitted.")
     
     args = parser.parse_args()
 
@@ -66,6 +67,20 @@ def main():
     # Check if the Spark requires a YouTube video
     if args.video:
         prompt_video = PromptManager.read_youtube_video(args.video)
+
+    # Check if the Spark requires an input
+    if args.input:
+        prompt_input = PromptManager.read_input_text(args.input)
+    else:
+    # Read from stdin if no input is provided    
+        try:
+            if not sys.stdin.isatty():  # Works for Linux/macOS and most Windows cases
+                prompt_input = sys.stdin.read().strip()
+            else:
+                prompt_input = None
+        except Exception as e:
+            print(f"Error reading stdin: {e}", file=sys.stderr)
+            sys.exit(1)
 
     # Initialize and use the selected LLM client
     try:
@@ -86,6 +101,10 @@ def main():
         if args.video:
             response = llm_client.connect(prompt, prompt_video)
         
+        # Query LLM with a prompt and input text
+        if args.input or not sys.stdin.isatty():
+            response = llm_client.connect(prompt, prompt_input)
+
         # Print LLM response
         print(response)
 

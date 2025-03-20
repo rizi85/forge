@@ -16,20 +16,16 @@ class GooglePalmClient:
         # We’ll store the library reference in self.client to stay consistent with the OpenAIClient pattern
         self.client = client
 
-    def connect(self, prompt: str, file_content: str = None, page_content: str = None) -> str:
+    def connect(self, prompt: str, prompt_source: str = None) -> str:
 
         try:
-
             #Buid prompt based on user input
             #Sends a request to OpenAI's model - prompt only
-            if not file_content and not page_content:
+            if not prompt_source:
                 prompt = prompt
-            #Sends a request to OpenAI's model - prompt and file
-            elif file_content:
-                prompt = prompt + "\n\n" + file_content
-            #Sends a request to OpenAI's model - prompt and URL
-            elif page_content:
-                prompt = prompt + "\n\n" + page_content
+            #Sends a request to OpenAI's model - prompt and source
+            else:
+                prompt = prompt + "\n\n" + prompt_source
 
             # PaLM's chat interface typically accepts a single list of conversation strings
             # We'll replicate the structure (user prompt only). 

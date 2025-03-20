@@ -56,10 +56,7 @@ class PromptManager:
             exit(1)
     
     # Prepare YouTube video to send to LLM.
-    def read_youtube_video(video_url: str) -> str:
-        # Extract the video ID from the URL
-        video_id = YouTubeTranscriptFetcher(video_url).extract_video_id()
-        
+    def read_youtube_video(video_url: str) -> str:  
         # Fetch the transcript of the video
         fetcher = YouTubeTranscriptFetcher(video_url)
         transcript = fetcher.get_transcript()
@@ -67,3 +64,12 @@ class PromptManager:
             print(f"Unable to fetch transcript for video: {video_url}")
             exit(1)
         return transcript
+    
+    # Prepare input text to send to LLM.
+    def read_input_text(input_text: str) -> str:            
+        if not input_text:
+            print("Error: No input provided. Use -i 'text' or pipe input using echo 'text' | ./forge.py", file=sys.stderr)
+            sys.exit(1)
+        
+        # Return input text
+        return input_text
